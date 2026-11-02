@@ -1,14 +1,9 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
-import '../../../core/api_endpoints.dart';
 import '../../../core/api_service.dart';
+import '../../../core/app_services.dart';
 
 class LoginViewModel extends ChangeNotifier {
-  LoginViewModel({ApiService? apiService})
-    : _apiService = apiService ?? ApiService();
-
-  final ApiService _apiService;
   final formKey = GlobalKey<FormState>();
   final usernameController = TextEditingController(text: 'emilys');
   final passwordController = TextEditingController(text: 'emilyspass');
@@ -39,8 +34,9 @@ class LoginViewModel extends ChangeNotifier {
     required String username,
     required String password,
   }) async {
+    if (_isLoading || _disposed) return false;
     if (username.trim().isEmpty || password.isEmpty) {
-      _errorMessage = 'Enter your username and password.';
+      _errorMessage = 'credentialsRequired';
       notifyListeners();
       return false;
     }
@@ -50,39 +46,13 @@ class LoginViewModel extends ChangeNotifier {
     notifyListeners();
 
     try {
-      final response = await _apiService.post<Map<String, dynamic>>(
-        ApiEndpoints.login,
-        data: {
-          'username': username.trim(),
-          'password': password,
-          'expiresInMins': 30,
-        },
-      );
-
-      final body = response.data;
-      final accessToken = body?['accessToken'] ?? body?['token'];
-      if (accessToken is! String || accessToken.isEmpty) {
-        _errorMessage = 'Login response did not include an access token.';
-        return false;
-      }
-
-      final refreshToken = body?['refreshToken'];
-      await _apiService.saveTokens(
-        accessToken: accessToken,
-        refreshToken: refreshToken is String ? refreshToken : null,
-      );
+      await AppServices.api.login(username, password);
       return true;
     } on ApiException catch (error) {
       _errorMessage = error.message;
       return false;
-    } on DioException catch (error) {
-      final data = error.response?.data;
-      _errorMessage = data is Map && data['message'] is String
-          ? data['message'] as String
-          : 'Unable to sign in. Check your connection and credentials.';
-      return false;
     } catch (_) {
-      _errorMessage = 'Unable to sign in. Please try again.';
+      _errorMessage = 'loginFailed';
       return false;
     } finally {
       _isLoading = false;

@@ -5,8 +5,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
+import 'app_localizations_ar.dart';
 import 'app_localizations_en.dart';
-import 'app_localizations_hi.dart';
 
 // ignore_for_file: type=lint
 
@@ -94,8 +94,8 @@ abstract class AppLocalizations {
 
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
+    Locale('ar'),
     Locale('en'),
-    Locale('hi'),
   ];
 
   /// No description provided for @welcome.
@@ -146,23 +146,305 @@ abstract class AppLocalizations {
   /// **'Settings'**
   String get settings;
 
-  /// No description provided for @language.
+  /// No description provided for @addFavourite.
   ///
   /// In en, this message translates to:
-  /// **'Language'**
-  String get language;
+  /// **'Save to favourites'**
+  String get addFavourite;
 
-  /// No description provided for @english.
+  /// No description provided for @allProductsLoaded.
   ///
   /// In en, this message translates to:
-  /// **'English'**
-  String get english;
+  /// **'All products loaded'**
+  String get allProductsLoaded;
 
-  /// No description provided for @hindi.
+  /// No description provided for @loginFailed.
   ///
   /// In en, this message translates to:
-  /// **'Hindi'**
-  String get hindi;
+  /// **'Unable to sign in. Check your connection and try again.'**
+  String get loginFailed;
+
+  /// No description provided for @password.
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get password;
+
+  /// No description provided for @showPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Show password'**
+  String get showPassword;
+
+  /// No description provided for @retry.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get retry;
+
+  /// No description provided for @price.
+  ///
+  /// In en, this message translates to:
+  /// **'USD {amount}'**
+  String price(String amount);
+
+  /// No description provided for @rating.
+  ///
+  /// In en, this message translates to:
+  /// **'Rating {value} out of 5'**
+  String rating(String value);
+
+  /// No description provided for @offline.
+  ///
+  /// In en, this message translates to:
+  /// **'You are offline'**
+  String get offline;
+
+  /// No description provided for @enterPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your password.'**
+  String get enterPassword;
+
+  /// No description provided for @secureStorageError.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to securely save your session. Please retry.'**
+  String get secureStorageError;
+
+  /// No description provided for @noProducts.
+  ///
+  /// In en, this message translates to:
+  /// **'No products available. Pull down to refresh.'**
+  String get noProducts;
+
+  /// No description provided for @logout.
+  ///
+  /// In en, this message translates to:
+  /// **'Logout'**
+  String get logout;
+
+  /// No description provided for @hidePassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide password'**
+  String get hidePassword;
+
+  /// No description provided for @cacheError.
+  ///
+  /// In en, this message translates to:
+  /// **'Products are shown, but could not be saved for offline use. Please retry.'**
+  String get cacheError;
+
+  /// No description provided for @sessionError.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to restore your session. Please retry.'**
+  String get sessionError;
+
+  /// No description provided for @credentialsRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your username and password.'**
+  String get credentialsRequired;
+
+  /// No description provided for @favouriteSaveError.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to save your favourite. Please retry.'**
+  String get favouriteSaveError;
+
+  /// No description provided for @retryImage.
+  ///
+  /// In en, this message translates to:
+  /// **'Image unavailable. Tap to retry.'**
+  String get retryImage;
+
+  /// No description provided for @loadMore.
+  ///
+  /// In en, this message translates to:
+  /// **'Load more'**
+  String get loadMore;
+
+  /// No description provided for @username.
+  ///
+  /// In en, this message translates to:
+  /// **'Username'**
+  String get username;
+
+  /// No description provided for @enterUsername.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your username.'**
+  String get enterUsername;
+
+  /// No description provided for @settingsError.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to save your language preference. Please retry.'**
+  String get settingsError;
+
+  /// No description provided for @invalidCredentials.
+  ///
+  /// In en, this message translates to:
+  /// **'Incorrect username or password.'**
+  String get invalidCredentials;
+
+  /// No description provided for @logoutError.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to clear your session. Please retry logout.'**
+  String get logoutError;
+
+  /// No description provided for @productsError.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to load products. Please retry.'**
+  String get productsError;
+
+  /// No description provided for @favouritesError.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to load favourites. Please retry.'**
+  String get favouritesError;
+
+  /// No description provided for @demoCredentials.
+  ///
+  /// In en, this message translates to:
+  /// **'DummyJSON demo: emilys / emilyspass'**
+  String get demoCredentials;
+
+  /// No description provided for @searchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search products'**
+  String get searchHint;
+
+  /// No description provided for @productCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Product code or ID'**
+  String get productCode;
+
+  /// No description provided for @findProduct.
+  ///
+  /// In en, this message translates to:
+  /// **'Find product'**
+  String get findProduct;
+
+  /// No description provided for @brand.
+  ///
+  /// In en, this message translates to:
+  /// **'Brand'**
+  String get brand;
+
+  /// No description provided for @search.
+  ///
+  /// In en, this message translates to:
+  /// **'Search'**
+  String get search;
+
+  /// No description provided for @inStock.
+  ///
+  /// In en, this message translates to:
+  /// **'In stock'**
+  String get inStock;
+
+  /// No description provided for @noSearchResults.
+  ///
+  /// In en, this message translates to:
+  /// **'No matching products. Try another search.'**
+  String get noSearchResults;
+
+  /// No description provided for @enterCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a product code or ID.'**
+  String get enterCode;
+
+  /// No description provided for @scanner.
+  ///
+  /// In en, this message translates to:
+  /// **'Scanner'**
+  String get scanner;
+
+  /// No description provided for @searchError.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to search products. Please retry.'**
+  String get searchError;
+
+  /// No description provided for @codeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a code, product ID or product URL'**
+  String get codeHint;
+
+  /// No description provided for @description.
+  ///
+  /// In en, this message translates to:
+  /// **'Description'**
+  String get description;
+
+  /// No description provided for @detailsError.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to load product details. Please retry.'**
+  String get detailsError;
+
+  /// No description provided for @searchPrompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Search by product name or keyword.'**
+  String get searchPrompt;
+
+  /// No description provided for @outOfStock.
+  ///
+  /// In en, this message translates to:
+  /// **'Out of stock'**
+  String get outOfStock;
+
+  /// No description provided for @startCamera.
+  ///
+  /// In en, this message translates to:
+  /// **'Start camera'**
+  String get startCamera;
+
+  /// No description provided for @productDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Product details'**
+  String get productDetails;
+
+  /// No description provided for @availability.
+  ///
+  /// In en, this message translates to:
+  /// **'Availability'**
+  String get availability;
+
+  /// No description provided for @scannerHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan a barcode or QR code, or enter a product ID. Saved barcodes open directly; other text is searched in the catalog.'**
+  String get scannerHint;
+
+  /// No description provided for @category.
+  ///
+  /// In en, this message translates to:
+  /// **'Category'**
+  String get category;
+
+  /// No description provided for @cameraError.
+  ///
+  /// In en, this message translates to:
+  /// **'Camera unavailable. Allow camera access in device settings, then retry, or enter a code below.'**
+  String get cameraError;
+
+  /// No description provided for @noDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'No description available.'**
+  String get noDescription;
 }
 
 class _AppLocalizationsDelegate
@@ -176,7 +458,7 @@ class _AppLocalizationsDelegate
 
   @override
   bool isSupported(Locale locale) =>
-      <String>['en', 'hi'].contains(locale.languageCode);
+      <String>['ar', 'en'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
@@ -185,10 +467,10 @@ class _AppLocalizationsDelegate
 AppLocalizations lookupAppLocalizations(Locale locale) {
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
+    case 'ar':
+      return AppLocalizationsAr();
     case 'en':
       return AppLocalizationsEn();
-    case 'hi':
-      return AppLocalizationsHi();
   }
 
   throw FlutterError(

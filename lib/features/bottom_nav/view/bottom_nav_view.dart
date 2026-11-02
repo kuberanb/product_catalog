@@ -1,74 +1,107 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../../../core/locale_service.dart';
-import '../../favourites/view/favourites_view.dart';
-import '../../settings/view/settings_view.dart';
+import '../../../core/app_colors.dart';
+import '../../../core/error_view.dart';
 import '../../../l10n/app_localizations.dart';
+import '../../favourites/view/favourites_view.dart';
+import '../../favourites/view_model/favourites_view_model.dart';
+import '../../products/view/products_view.dart';
+import '../../products/view_model/products_view_model.dart';
+import '../../search/view/search_view.dart';
+import '../../search/view_model/search_view_model.dart';
+import '../../scanner/view/scanner_view.dart';
+import '../../settings/view/settings_view.dart';
 import '../view_model/bottom_nav_view_model.dart';
 
 class BottomNavView extends StatelessWidget {
-  const BottomNavView({super.key, required this.localeService});
-
-  final LocaleService localeService;
+  const BottomNavView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => BottomNavViewModel(),
-      child: Consumer<BottomNavViewModel>(
-        builder: (context, model, _) {
-          final l10n = AppLocalizations.of(context)!;
-          final titles = [l10n.products, l10n.favourites, l10n.settings];
-          final pages = [
-            _TabPage(title: l10n.products, icon: Icons.inventory_2_outlined),
-            const FavouritesView(),
-            SettingsView(localeService: localeService),
-          ];
+    final model = context.watch<BottomNavViewModel>();
+    final products = context.watch<ProductsViewModel>();
+    final favourites = context.watch<FavouritesViewModel>();
+    final t = AppLocalizations.of(context)!;
+    final titles = [t.products, t.favourites, t.settings];
+    final pages = [
+      const ProductsView(),
+      const FavouritesView(),
+      const SettingsView(),
+    ];
 
-          return Scaffold(
-            appBar: AppBar(title: Text(titles[model.selectedIndex])),
-            body: IndexedStack(index: model.selectedIndex, children: pages),
-            bottomNavigationBar: NavigationBar(
-              selectedIndex: model.selectedIndex,
-              onDestinationSelected: model.selectTab,
-              destinations: [
-                NavigationDestination(
-                  icon: const Icon(Icons.inventory_2_outlined),
-                  label: l10n.products,
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(titles[model.selectedIndex]),
+        actions: model.selectedIndex == 0
+            ? [
+                IconButton(
+                  tooltip: t.search,
+                  icon: const Icon(Icons.search),
+                  onPressed: () {
+                    context.read<SearchViewModel>().search('');
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: (_) => const SearchView()),
+                    );
+                  },
                 ),
-                NavigationDestination(
-                  icon: const Icon(Icons.favorite_border),
-                  label: l10n.favourites,
+                IconButton(
+                  tooltip: t.scanner,
+                  icon: const Icon(Icons.qr_code_scanner),
+                  onPressed: () => Navigator.of(context).push(
+                    MaterialPageRoute(builder: (_) => const ScannerView()),
+                  ),
                 ),
-                NavigationDestination(
-                  icon: const Icon(Icons.settings_outlined),
-                  label: l10n.settings,
+              ]
+            : null,
+      ),
+      body: Column(
+        children: [
+          if (products.isOffline)
+            Material(
+              color: AppColors.offline,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 8,
                 ),
-              ],
+                child: Row(
+                  children: [
+                    const Icon(Icons.wifi_off),
+                    const SizedBox(width: 12),
+                    Expanded(child: Text(t.offline)),
+                    TextButton(
+                      onPressed: () => products.load(refresh: true),
+                      child: Text(t.retry),
+                    ),
+                  ],
+                ),
+              ),
             ),
-          );
-        },
+          if (model.selectedIndex == 0 && favourites.error != null)
+            ErrorView(error: favourites.error!, onRetry: favourites.retry),
+          Expanded(
+            child: IndexedStack(index: model.selectedIndex, children: pages),
+          ),
+        ],
+      ),
+      bottomNavigationBar: NavigationBar(
+        selectedIndex: model.selectedIndex,
+        onDestinationSelected: model.selectTab,
+        destinations: [
+          NavigationDestination(
+            icon: const Icon(Icons.inventory_2_outlined),
+            label: t.products,
+          ),
+          NavigationDestination(
+            icon: const Icon(Icons.favorite_border),
+            label: t.favourites,
+          ),
+          NavigationDestination(
+            icon: const Icon(Icons.settings_outlined),
+            label: t.settings,
+          ),
+        ],
       ),
     );
   }
-}
-
-class _TabPage extends StatelessWidget {
-  const _TabPage({required this.title, required this.icon});
-
-  final String title;
-  final IconData icon;
-
-  @override
-  Widget build(BuildContext context) => Center(
-    child: Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Icon(icon, size: 48, color: Theme.of(context).colorScheme.primary),
-        const SizedBox(height: 12),
-        Text(title, style: Theme.of(context).textTheme.titleLarge),
-      ],
-    ),
-  );
 }

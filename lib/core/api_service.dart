@@ -11,26 +11,39 @@ class ApiService {
     Dio? dio,
     InternetService? internetService,
     FlutterSecureStorage? storage,
-  })
-    : _dio =
-          dio ??
-          Dio(
-            BaseOptions(
-              baseUrl: ApiEndpoints.baseUrl,
-              connectTimeout: const Duration(seconds: 10),
-              receiveTimeout: const Duration(seconds: 10),
-            ),
-          ),
-      _internetService = internetService ?? InternetService(),
-      _storage = storage ?? const FlutterSecureStorage() {
+  }) : _dio =
+           dio ??
+           Dio(
+             BaseOptions(
+               baseUrl: ApiEndpoints.baseUrl,
+               connectTimeout: const Duration(seconds: 10),
+               receiveTimeout: const Duration(seconds: 10),
+             ),
+           ),
+       _internetService = internetService ?? InternetService(),
+       _storage =
+           storage ??
+           const FlutterSecureStorage(
+             aOptions: AndroidOptions(),
+             iOptions: IOSOptions(
+               accessibility: KeychainAccessibility.first_unlock_this_device,
+             ),
+           ) {
     _dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) async {
-          final token = await _storage.read(key: _accessTokenKey);
-          if (token != null && token.isNotEmpty) {
-            options.headers['Authorization'] = 'Bearer $token';
+          try {
+            if (options.path != ApiEndpoints.login &&
+                options.path != ApiEndpoints.refreshToken) {
+              final token = await _storage.read(key: _accessTokenKey);
+              if (token != null && token.isNotEmpty) {
+                options.headers['Authorization'] = 'Bearer $token';
+              }
+            }
+            handler.next(options);
+          } catch (_) {
+            handler.reject(DioException(requestOptions: options));
           }
-          handler.next(options);
         },
       ),
     );
@@ -43,6 +56,54 @@ class ApiService {
   static const _accessTokenKey = 'access_token';
   static const _refreshTokenKey = 'refresh_token';
 
+  /// Login details and token parsing stay here, away from the form state.
+  Future<void> login(String username, String password) async {
+    try {
+      final response = await post<Map<String, dynamic>>(
+        ApiEndpoints.login,
+        data: {
+          'username': username.trim(),
+          'password': password,
+          'expiresInMins': 30,
+        },
+      );
+      await _saveResponseTokens(response.data);
+    } on DioException catch (error) {
+      if (error.response?.statusCode == 400 ||
+          error.response?.statusCode == 401) {
+        throw const ApiException('invalidCredentials');
+      }
+      throw const ApiException('loginFailed');
+    } on ApiException {
+      rethrow;
+    } catch (_) {
+      throw const ApiException('secureStorageError');
+    }
+  }
+
+  Future<void> _saveResponseTokens(Map<String, dynamic>? body) async {
+    final token = body?['accessToken'] ?? body?['token'];
+    if (token is! String || token.isEmpty) {
+      throw const ApiException('invalidLoginResponse');
+    }
+    final refresh = body?['refreshToken'];
+    await saveTokens(
+      accessToken: token,
+      refreshToken: refresh is String ? refresh : null,
+    );
+  }
+
+  /// A saved token keeps the catalog signed in across app restarts, even offline.
+  Future<bool> restoreSession() async {
+    final token = await _storage.read(key: _accessTokenKey);
+    return token != null && token.isNotEmpty;
+  }
+
+  Future<void> clearTokens() async {
+    await _storage.delete(key: _accessTokenKey);
+    await _storage.delete(key: _refreshTokenKey);
+  }
+
   Future<void> saveTokens({
     required String accessToken,
     String? refreshToken,
@@ -50,6 +111,8 @@ class ApiService {
     await _storage.write(key: _accessTokenKey, value: accessToken);
     if (refreshToken != null && refreshToken.isNotEmpty) {
       await _storage.write(key: _refreshTokenKey, value: refreshToken);
+    } else {
+      await _storage.delete(key: _refreshTokenKey);
     }
   }
 
@@ -121,7 +184,7 @@ class ApiService {
 
   Future<void> _requireInternet() async {
     if (!await _internetService.hasInternetConnection()) {
-      throw const ApiException('No internet connection is available.');
+      throw const ApiException('offline');
     }
   }
 }

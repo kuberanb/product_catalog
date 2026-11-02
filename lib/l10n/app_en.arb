@@ -8,7 +8,68 @@
   "favouritesHint": "Products you save as favourites will appear here.",
   "removeFavourite": "Remove from favourites",
   "settings": "Settings",
-  "language": "Language",
-  "english": "English",
-  "hindi": "Hindi"
+  "addFavourite": "Save to favourites",
+  "allProductsLoaded": "All products loaded",
+  "loginFailed": "Unable to sign in. Check your connection and try again.",
+  "password": "Password",
+  "showPassword": "Show password",
+  "retry": "Retry",
+  "price": "USD {amount}",
+  "rating": "Rating {value} out of 5",
+  "offline": "You are offline",
+  "enterPassword": "Enter your password.",
+  "secureStorageError": "Unable to securely save your session. Please retry.",
+  "noProducts": "No products available. Pull down to refresh.",
+  "logout": "Logout",
+  "hidePassword": "Hide password",
+  "cacheError": "Products are shown, but could not be saved for offline use. Please retry.",
+  "sessionError": "Unable to restore your session. Please retry.",
+  "credentialsRequired": "Enter your username and password.",
+  "favouriteSaveError": "Unable to save your favourite. Please retry.",
+  "retryImage": "Image unavailable. Tap to retry.",
+  "loadMore": "Load more",
+  "username": "Username",
+  "enterUsername": "Enter your username.",
+  "settingsError": "Unable to save your language preference. Please retry.",
+  "invalidCredentials": "Incorrect username or password.",
+  "logoutError": "Unable to clear your session. Please retry logout.",
+  "productsError": "Unable to load products. Please retry.",
+  "favouritesError": "Unable to load favourites. Please retry.",
+  "demoCredentials": "DummyJSON demo: emilys / emilyspass",
+  "@price": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "@rating": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "searchHint": "Search products",
+  "productCode": "Product code or ID",
+  "findProduct": "Find product",
+  "brand": "Brand",
+  "search": "Search",
+  "inStock": "In stock",
+  "noSearchResults": "No matching products. Try another search.",
+  "enterCode": "Enter a product code or ID.",
+  "scanner": "Scanner",
+  "searchError": "Unable to search products. Please retry.",
+  "codeHint": "Enter a code, product ID or product URL",
+  "description": "Description",
+  "detailsError": "Unable to load product details. Please retry.",
+  "searchPrompt": "Search by product name or keyword.",
+  "outOfStock": "Out of stock",
+  "startCamera": "Start camera",
+  "productDetails": "Product details",
+  "availability": "Availability",
+  "scannerHint": "Scan a barcode or QR code, or enter a product ID. Saved barcodes open directly; other text is searched in the catalog.",
+  "category": "Category",
+  "cameraError": "Camera unavailable. Allow camera access in device settings, then retry, or enter a code below.",
+  "noDescription": "No description available."
 }

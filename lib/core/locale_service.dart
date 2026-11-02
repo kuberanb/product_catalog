@@ -1,17 +1,50 @@
 import 'package:flutter/material.dart';
+import 'app_services.dart';
 
-/// App-wide locale state shared by MaterialApp and the Settings feature.
 class LocaleService extends ChangeNotifier {
-  LocaleService({Locale initialLocale = const Locale('en')})
-    : _locale = initialLocale;
-
-  Locale _locale;
-
+  Locale _locale = const Locale('en');
   Locale get locale => _locale;
+  bool isLoading = false;
+  String? error;
+  bool _disposed = false;
+  void _changed() {
+    if (!_disposed) notifyListeners();
+  }
 
-  void setLocale(Locale locale) {
-    if (_locale == locale) return;
+  Future<void> restore() async {
+    isLoading = true;
+    error = null;
+    _changed();
+    try {
+      final code = await AppServices.store.read('language');
+      if (code == 'en' || code == 'ar') _locale = Locale(code!);
+    } catch (_) {
+      error = 'settingsError';
+    }
+    isLoading = false;
+    _changed();
+  }
+
+  Future<void> setLocale(Locale locale) async {
+    if (locale.languageCode != 'en' && locale.languageCode != 'ar') return;
     _locale = locale;
-    notifyListeners();
+    await retry();
+  }
+
+  Future<void> retry() async {
+    error = null;
+    _changed();
+    try {
+      await AppServices.store.write('language', _locale.languageCode);
+    } catch (_) {
+      error = 'settingsError';
+    }
+    _changed();
+  }
+
+  @override
+  void dispose() {
+    _disposed = true;
+    super.dispose();
   }
 }
