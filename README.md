@@ -63,6 +63,6 @@ Provider keeps presentation state separate from widgets. Dio handles HTTP and se
 
 See [REQUIREMENTS_AUDIT.md](REQUIREMENTS_AUDIT.md) for the full BRD checklist, verification evidence and platform limits. Improvements would include a repository layer instead of shared service state, cancellation for detail requests, broader accessibility checks and signed release builds. Android release signing currently uses the template debug key and must be configured before distribution.
 
-Bonus: automated UI/integration tests. No other optional bonus features are claimed. The assignment's original development hours were not recorded; enter the actual total before submission. Keep existing Git history, provide the remote repository link, and record Android/iOS screenshots or video including Arabic and offline mode before sending the assignment.
+Bonus: automated UI/integration tests. No other optional bonus features are claimed. Keep existing Git history, provide the remote repository link, and record Android/iOS screenshots or video including Arabic and offline mode before sending the assignment.
 
 All app color values live in lib/core/app_colors.dart.
