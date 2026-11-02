@@ -1,0 +1,14 @@
+{
+  "@@locale": "en",
+  "welcome": "Welcome",
+  "continueToCatalog": "Continue to catalog",
+  "products": "Products",
+  "favourites": "Favourites",
+  "noFavourites": "No favourite products yet",
+  "favouritesHint": "Products you save as favourites will appear here.",
+  "removeFavourite": "Remove from favourites",
+  "settings": "Settings",
+  "language": "Language",
+  "english": "English",
+  "hindi": "Hindi"
+}
