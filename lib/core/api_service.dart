@@ -56,43 +56,6 @@ class ApiService {
   static const _accessTokenKey = 'access_token';
   static const _refreshTokenKey = 'refresh_token';
 
-  /// Login details and token parsing stay here, away from the form state.
-  Future<void> login(String username, String password) async {
-    try {
-      final response = await post<Map<String, dynamic>>(
-        ApiEndpoints.login,
-        data: {
-          'username': username.trim(),
-          'password': password,
-          'expiresInMins': 30,
-        },
-      );
-      await _saveResponseTokens(response.data);
-    } on DioException catch (error) {
-      if (error.response?.statusCode == 400 ||
-          error.response?.statusCode == 401) {
-        throw const ApiException('invalidCredentials');
-      }
-      throw const ApiException('loginFailed');
-    } on ApiException {
-      rethrow;
-    } catch (_) {
-      throw const ApiException('secureStorageError');
-    }
-  }
-
-  Future<void> _saveResponseTokens(Map<String, dynamic>? body) async {
-    final token = body?['accessToken'] ?? body?['token'];
-    if (token is! String || token.isEmpty) {
-      throw const ApiException('invalidLoginResponse');
-    }
-    final refresh = body?['refreshToken'];
-    await saveTokens(
-      accessToken: token,
-      refreshToken: refresh is String ? refresh : null,
-    );
-  }
-
   /// A saved token keeps the catalog signed in across app restarts, even offline.
   Future<bool> restoreSession() async {
     final token = await _storage.read(key: _accessTokenKey);

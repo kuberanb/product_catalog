@@ -10,6 +10,7 @@ import '../../products/view_model/products_view_model.dart';
 import '../../search/view/search_view.dart';
 import '../../search/view_model/search_view_model.dart';
 import '../../scanner/view/scanner_view.dart';
+import '../../scanner/view_model/scanner_view_model.dart';
 import '../../settings/view/settings_view.dart';
 import '../view_model/bottom_nav_view_model.dart';
 
@@ -47,9 +48,12 @@ class BottomNavView extends StatelessWidget {
                 IconButton(
                   tooltip: t.scanner,
                   icon: const Icon(Icons.qr_code_scanner),
-                  onPressed: () => Navigator.of(context).push(
-                    MaterialPageRoute(builder: (_) => const ScannerView()),
-                  ),
+                  onPressed: () {
+                    context.read<ScannerViewModel>().reset();
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: (_) => const ScannerView()),
+                    );
+                  },
                 ),
               ]
             : null,

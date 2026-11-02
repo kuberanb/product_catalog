@@ -11,6 +11,7 @@ class Product {
     this.stock = 0,
     this.barcode = '',
     this.sku = '',
+    this.images = const [],
   });
 
   final int id;
@@ -24,6 +25,7 @@ class Product {
   final int stock;
   final String barcode;
   final String sku;
+  final List<String> images;
 
   factory Product.fromJson(Map<String, dynamic> json) => Product(
     id: (json['id'] as num).toInt(),
@@ -37,6 +39,9 @@ class Product {
     stock: (json['stock'] as num?)?.toInt() ?? 0,
     barcode: (json['meta'] as Map?)?['barcode'] as String? ?? '',
     sku: json['sku'] as String? ?? '',
+    images: List<String>.unmodifiable(
+      (json['images'] as List? ?? const []).whereType<String>(),
+    ),
   );
 
   Map<String, dynamic> toJson() => {
@@ -51,5 +56,6 @@ class Product {
     'stock': stock,
     'meta': {'barcode': barcode},
     'sku': sku,
+    'images': images,
   };
 }

@@ -15,6 +15,7 @@ String errorText(BuildContext context, String code) {
     'cacheError' => t.cacheError,
     'productsError' => t.productsError,
     'detailsError' => t.detailsError,
+    'productNotFound' => t.productNotFound,
     'searchError' => t.searchError,
     'favouritesError' => t.favouritesError,
     'favouriteSaveError' => t.favouriteSaveError,

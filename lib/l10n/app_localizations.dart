@@ -377,7 +377,7 @@ abstract class AppLocalizations {
   /// No description provided for @codeHint.
   ///
   /// In en, this message translates to:
-  /// **'Enter a code, product ID or product URL'**
+  /// **'catalogue://product/3'**
   String get codeHint;
 
   /// No description provided for @description.
@@ -425,7 +425,7 @@ abstract class AppLocalizations {
   /// No description provided for @scannerHint.
   ///
   /// In en, this message translates to:
-  /// **'Scan a barcode or QR code, or enter a product ID. Saved barcodes open directly; other text is searched in the catalog.'**
+  /// **'Scan a product QR code to open its details. You can also type a code such as catalogue://product/3.'**
   String get scannerHint;
 
   /// No description provided for @category.
@@ -445,6 +445,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No description available.'**
   String get noDescription;
+
+  /// No description provided for @invalidProductCode.
+  ///
+  /// In en, this message translates to:
+  /// **'This QR code is not a product.'**
+  String get invalidProductCode;
+
+  /// No description provided for @productNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Product not found.'**
+  String get productNotFound;
+
+  /// No description provided for @typeCodeInstead.
+  ///
+  /// In en, this message translates to:
+  /// **'Type code instead'**
+  String get typeCodeInstead;
+
+  /// No description provided for @openSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Open settings'**
+  String get openSettings;
+
+  /// No description provided for @cameraPermissionDenied.
+  ///
+  /// In en, this message translates to:
+  /// **'Camera permission was denied. Enable camera access in app settings, then tap Retry, or type a code instead.'**
+  String get cameraPermissionDenied;
+
+  /// No description provided for @settingsOpenError.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to open settings. Open the app permissions in your device settings, or type a code instead.'**
+  String get settingsOpenError;
+
+  /// No description provided for @language.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get language;
 }
 
 class _AppLocalizationsDelegate

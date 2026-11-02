@@ -60,7 +60,7 @@
   "enterCode": "Enter a product code or ID.",
   "scanner": "Scanner",
   "searchError": "Unable to search products. Please retry.",
-  "codeHint": "Enter a code, product ID or product URL",
+  "codeHint": "catalogue://product/3",
   "description": "Description",
   "detailsError": "Unable to load product details. Please retry.",
   "searchPrompt": "Search by product name or keyword.",
@@ -68,8 +68,15 @@
   "startCamera": "Start camera",
   "productDetails": "Product details",
   "availability": "Availability",
-  "scannerHint": "Scan a barcode or QR code, or enter a product ID. Saved barcodes open directly; other text is searched in the catalog.",
+  "scannerHint": "Scan a product QR code to open its details. You can also type a code such as catalogue://product/3.",
   "category": "Category",
   "cameraError": "Camera unavailable. Allow camera access in device settings, then retry, or enter a code below.",
-  "noDescription": "No description available."
+  "noDescription": "No description available.",
+  "invalidProductCode": "This QR code is not a product.",
+  "productNotFound": "Product not found.",
+  "typeCodeInstead": "Type code instead",
+  "openSettings": "Open settings",
+  "cameraPermissionDenied": "Camera permission was denied. Enable camera access in app settings, then tap Retry, or type a code instead.",
+  "settingsOpenError": "Unable to open settings. Open the app permissions in your device settings, or type a code instead.",
+  "language": "Language"
 }

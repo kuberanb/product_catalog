@@ -21,14 +21,14 @@ class SettingsView extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       children: [
         if (session.isLoading) const LinearProgressIndicator(),
-        Text('Language', style: Theme.of(context).textTheme.titleMedium),
+        Text(t.language, style: Theme.of(context).textTheme.titleMedium),
         const SizedBox(height: 8),
         DropdownButtonFormField<String>(
           key: ValueKey(locale.locale.languageCode),
           value: locale.locale.languageCode,
-          decoration: const InputDecoration(
-            border: OutlineInputBorder(),
-            labelText: 'Language',
+          decoration: InputDecoration(
+            border: const OutlineInputBorder(),
+            labelText: t.language,
           ),
           items: [
             const DropdownMenuItem(value: 'en', child: Text('English')),

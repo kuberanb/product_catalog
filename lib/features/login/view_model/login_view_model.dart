@@ -1,5 +1,7 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
+import '../../../core/api_endpoints.dart';
 import '../../../core/api_service.dart';
 import '../../../core/app_services.dart';
 
@@ -46,8 +48,22 @@ class LoginViewModel extends ChangeNotifier {
     notifyListeners();
 
     try {
-      await AppServices.api.login(username, password);
+      final response = await AppServices.api.post<Map<String, dynamic>>(
+        ApiEndpoints.login,
+        data: {
+          'username': username.trim(),
+          'password': password,
+          'expiresInMins': 30,
+        },
+      );
+      await _saveResponseTokens(response.data);
       return true;
+    } on DioException catch (error) {
+      _errorMessage =
+          error.response?.statusCode == 400 || error.response?.statusCode == 401
+          ? 'invalidCredentials'
+          : 'loginFailed';
+      return false;
     } on ApiException catch (error) {
       _errorMessage = error.message;
       return false;
@@ -57,6 +73,22 @@ class LoginViewModel extends ChangeNotifier {
     } finally {
       _isLoading = false;
       if (!_disposed) notifyListeners();
+    }
+  }
+
+  Future<void> _saveResponseTokens(Map<String, dynamic>? body) async {
+    final token = body?['accessToken'] ?? body?['token'];
+    if (token is! String || token.isEmpty) {
+      throw const ApiException('invalidLoginResponse');
+    }
+    final refresh = body?['refreshToken'];
+    try {
+      await AppServices.api.saveTokens(
+        accessToken: token,
+        refreshToken: refresh is String ? refresh : null,
+      );
+    } catch (_) {
+      throw const ApiException('secureStorageError');
     }
   }
 }

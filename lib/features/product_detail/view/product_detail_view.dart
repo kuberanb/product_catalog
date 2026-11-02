@@ -19,6 +19,11 @@ class ProductDetailView extends StatelessWidget {
     final item = model.product;
     final productId = model.productId ?? item?.id;
     final saved = productId != null && favourites.contains(productId);
+    final images = item == null
+        ? <String>[]
+        : item.images.isNotEmpty
+        ? item.images
+        : [item.image];
 
     return Scaffold(
       appBar: AppBar(
@@ -56,7 +61,20 @@ class ProductDetailView extends StatelessWidget {
                       color: AppColors.surface,
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    child: ProductImage(url: item.image),
+                    child: PageView.builder(
+                      key: ValueKey(item.id),
+                      itemCount: images.length,
+                      itemBuilder: (_, index) => Column(
+                        children: [
+                          Expanded(child: ProductImage(url: images[index])),
+                          if (images.length > 1)
+                            Padding(
+                              padding: const EdgeInsets.only(top: 8),
+                              child: Text('${index + 1} / ${images.length}'),
+                            ),
+                        ],
+                      ),
+                    ),
                   ),
                   const SizedBox(height: 24),
                   Text(

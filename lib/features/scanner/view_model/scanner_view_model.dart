@@ -29,7 +29,21 @@ class ScannerViewModel extends ChangeNotifier {
   }
 
   void retryCamera() {
+    error = null;
+    isCameraOn = true;
     cameraAttempt++;
+    _changed();
+  }
+
+  void stopCamera() {
+    isCameraOn = false;
+    _changed();
+  }
+
+  void reset() {
+    isCameraOn = false;
+    error = null;
+    codeController.clear();
     _changed();
   }
 
@@ -58,7 +72,7 @@ class ScannerViewModel extends ChangeNotifier {
     _changed();
   }
 
-  ScanResult? submit(String emptyCodeError) {
+  ScanResult? submit(String emptyCodeError, String invalidCodeError) {
     final value = codeController.text.trim();
     if (value.isEmpty) {
       error = emptyCodeError;
@@ -75,16 +89,38 @@ class ScannerViewModel extends ChangeNotifier {
         break;
       }
     }
-    final path = Uri.tryParse(value)?.pathSegments ?? [];
-    final urlId = path.length >= 2 && path[path.length - 2] == 'products'
-        ? int.tryParse(path.last)
-        : null;
+    final uri = Uri.tryParse(value);
+    final path = uri?.pathSegments ?? [];
+    final catalogueCode =
+        uri != null &&
+        uri.scheme == 'catalogue' &&
+        uri.host == 'product' &&
+        uri.userInfo.isEmpty &&
+        !uri.hasPort &&
+        !uri.hasQuery &&
+        !uri.hasFragment &&
+        path.length == 1 &&
+        RegExp(r'^[0-9]+$').hasMatch(path.single);
+    final urlId = catalogueCode ? int.tryParse(path.single) : null;
     final number = int.tryParse(value);
     final id =
         product?.id ??
         urlId ??
         (number != null && number > 0 && number < 100000 ? number : null);
     isCameraOn = false;
+    if (id == null || id <= 0) {
+      error = invalidCodeError;
+      _changed();
+      return null;
+    }
+    if (product == null) {
+      for (final candidate in AppServices.cachedProducts) {
+        if (candidate.id == id) {
+          product = candidate;
+          break;
+        }
+      }
+    }
     error = null;
     _changed();
     return ScanResult(productId: id, product: product, query: value);

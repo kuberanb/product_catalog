@@ -4,20 +4,56 @@ import '../../../core/app_colors.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../product_detail/view/product_detail_view.dart';
 import '../../product_detail/view_model/product_detail_view_model.dart';
-import '../../search/view/search_view.dart';
-import '../../search/view_model/search_view_model.dart';
+import 'package:flutter/services.dart';
 import '../view_model/scanner_view_model.dart';
 import 'widgets/scanner_camera_view.dart';
 
-class ScannerView extends StatelessWidget {
+class ScannerView extends StatefulWidget {
   const ScannerView({super.key});
+
+  @override
+  State<ScannerView> createState() => _ScannerViewState();
+}
+
+class _ScannerViewState extends State<ScannerView> {
+  final _codeFocus = FocusNode();
+
+  @override
+  void dispose() {
+    _codeFocus.dispose();
+    super.dispose();
+  }
+
+  Future<void> _openSettings() async {
+    try {
+      await const MethodChannel(
+        'product_catalog/settings',
+      ).invokeMethod<void>('openSettings');
+    } on PlatformException {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(AppLocalizations.of(context)!.settingsOpenError),
+          ),
+        );
+      }
+    } on MissingPluginException {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(AppLocalizations.of(context)!.settingsOpenError),
+          ),
+        );
+      }
+    }
+  }
 
   void _submit(
     BuildContext context,
     ScannerViewModel scanner,
     AppLocalizations t,
   ) {
-    final result = scanner.submit(t.enterCode);
+    final result = scanner.submit(t.enterCode, t.invalidProductCode);
     if (result == null) return;
     if (result.productId != null) {
       final details = context.read<ProductDetailViewModel>();
@@ -29,11 +65,6 @@ class ScannerView extends StatelessWidget {
       Navigator.of(
         context,
       ).push(MaterialPageRoute(builder: (_) => const ProductDetailView()));
-    } else {
-      context.read<SearchViewModel>().search(result.query);
-      Navigator.of(
-        context,
-      ).push(MaterialPageRoute(builder: (_) => const SearchView()));
     }
   }
 
@@ -55,10 +86,15 @@ class ScannerView extends StatelessWidget {
               child: model.isCameraOn
                   ? ScannerCameraView(
                       attempt: model.cameraAttempt,
-                      onDetect: model.onDetected,
+                      onDetect: (capture) {
+                        if (!model.isCameraOn) return;
+                        model.onDetected(capture);
+                        if (!model.isCameraOn) _submit(context, model, t);
+                      },
                       onCameraError: () =>
                           model.cameraUnavailable(t.cameraError),
                       onRetry: model.retryCamera,
+                      onOpenSettings: _openSettings,
                     )
                   : ColoredBox(
                       color: AppColors.surface,
@@ -73,7 +109,10 @@ class ScannerView extends StatelessWidget {
                             ),
                             const SizedBox(height: 20),
                             FilledButton.icon(
-                              onPressed: model.startCamera,
+                              onPressed: () {
+                                _codeFocus.unfocus();
+                                model.startCamera();
+                              },
                               icon: const Icon(Icons.camera_alt_outlined),
                               label: Text(t.startCamera),
                             ),
@@ -84,7 +123,16 @@ class ScannerView extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 24),
+          TextButton.icon(
+            onPressed: () {
+              model.stopCamera();
+              _codeFocus.requestFocus();
+            },
+            icon: const Icon(Icons.keyboard),
+            label: Text(t.typeCodeInstead),
+          ),
           TextField(
+            focusNode: _codeFocus,
             controller: model.codeController,
             textInputAction: TextInputAction.search,
             decoration: InputDecoration(

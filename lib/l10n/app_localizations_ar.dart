@@ -152,7 +152,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get searchError => 'تعذر البحث عن المنتجات. أعد المحاولة.';
 
   @override
-  String get codeHint => 'أدخل الرمز أو رقم المنتج أو رابطه';
+  String get codeHint => 'catalogue://product/3';
 
   @override
   String get description => 'الوصف';
@@ -177,7 +177,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get scannerHint =>
-      'امسح رمزاً شريطياً أو رمز QR، أو أدخل رقم المنتج. تُفتح الرموز المحفوظة مباشرة ويُبحث عن النصوص الأخرى في الكتالوج.';
+      'امسح رمز QR الخاص بالمنتج لفتح تفاصيله. يمكنك أيضاً كتابة رمز مثل catalogue://product/3.';
 
   @override
   String get category => 'الفئة';
@@ -188,4 +188,27 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get noDescription => 'لا يوجد وصف متاح.';
+
+  @override
+  String get invalidProductCode => 'رمز QR هذا ليس لمنتج.';
+
+  @override
+  String get productNotFound => 'المنتج غير موجود.';
+
+  @override
+  String get typeCodeInstead => 'كتابة الرمز بدلاً من ذلك';
+
+  @override
+  String get openSettings => 'فتح الإعدادات';
+
+  @override
+  String get cameraPermissionDenied =>
+      'تم رفض إذن الكاميرا. فعّل الوصول إلى الكاميرا في إعدادات التطبيق ثم أعد المحاولة، أو اكتب الرمز بدلاً من ذلك.';
+
+  @override
+  String get settingsOpenError =>
+      'تعذر فتح الإعدادات. افتح أذونات التطبيق في إعدادات الجهاز أو اكتب الرمز بدلاً من ذلك.';
+
+  @override
+  String get language => 'اللغة';
 }

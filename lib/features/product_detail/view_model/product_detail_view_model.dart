@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import '../../../core/api_endpoints.dart';
 import '../../../core/api_service.dart';
@@ -11,11 +12,14 @@ class ProductDetailViewModel extends ChangeNotifier {
   bool isLoading = false;
   String? error;
   bool _disposed = false;
+  int _selection = 0;
   void _changed() {
     if (!_disposed) notifyListeners();
   }
 
   void selectProduct({required int id, Product? selectedProduct}) {
+    _selection++;
+    isLoading = false;
     productId = id;
     product = selectedProduct;
     error = null;
@@ -25,6 +29,7 @@ class ProductDetailViewModel extends ChangeNotifier {
   Future<void> load() async {
     if (isLoading || _disposed) return;
     final id = productId;
+    final selection = _selection;
     if (id == null) {
       error = 'detailsError';
       _changed();
@@ -35,6 +40,7 @@ class ProductDetailViewModel extends ChangeNotifier {
     _changed();
     try {
       final cached = await AppServices.store.read('product_$id');
+      if (_disposed || selection != _selection) return;
       if (cached != null) {
         product = Product.fromJson(jsonDecode(cached) as Map<String, dynamic>);
         _changed();
@@ -46,6 +52,7 @@ class ProductDetailViewModel extends ChangeNotifier {
       final response = await AppServices.api.get<Map<String, dynamic>>(
         ApiEndpoints.productDetails(id),
       );
+      if (_disposed || selection != _selection) return;
       product = Product.fromJson(response.data!);
       try {
         await AppServices.store.write(
@@ -53,15 +60,27 @@ class ProductDetailViewModel extends ChangeNotifier {
           jsonEncode(product!.toJson()),
         );
       } catch (_) {
-        error = 'cacheError';
+        if (selection == _selection) error = 'cacheError';
       }
     } on ApiException catch (e) {
-      error = e.message == 'offline' ? 'offline' : 'detailsError';
+      if (selection == _selection) {
+        error = e.message == 'offline' ? 'offline' : 'detailsError';
+      }
+    } on DioException catch (e) {
+      if (_disposed || selection != _selection) return;
+      if (e.response?.statusCode == 404) product = null;
+      error = e.response?.statusCode == 404
+          ? 'productNotFound'
+          : e.response == null
+          ? 'offline'
+          : 'detailsError';
     } catch (_) {
-      error = 'detailsError';
+      if (selection == _selection) error = 'detailsError';
     } finally {
-      isLoading = false;
-      _changed();
+      if (selection == _selection) {
+        isLoading = false;
+        _changed();
+      }
     }
   }
 

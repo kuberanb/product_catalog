@@ -44,6 +44,8 @@ dependencies:
 
   intl: any
 dev_dependencies:
+  integration_test:
+    sdk: flutter
   flutter_test:
     sdk: flutter
 
@@ -60,6 +62,8 @@ dev_dependencies:
 # The following section is specific to Flutter packages.
 flutter:
   generate: true
+  assets:
+    - integration_test/fixtures/test_qr_codes.png
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

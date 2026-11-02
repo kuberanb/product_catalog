@@ -10,12 +10,14 @@ class ScannerCameraView extends StatelessWidget {
     required this.onDetect,
     required this.onCameraError,
     required this.onRetry,
+    required this.onOpenSettings,
   });
 
   final int attempt;
   final ValueChanged<BarcodeCapture> onDetect;
   final VoidCallback onCameraError;
   final VoidCallback onRetry;
+  final VoidCallback onOpenSettings;
 
   @override
   Widget build(BuildContext context) {
@@ -28,10 +30,17 @@ class ScannerCameraView extends StatelessWidget {
         color: AppColors.cameraBackground,
         child: Center(child: CircularProgressIndicator()),
       ),
-      errorBuilder: (_, _) => _CameraErrorView(
-        message: t.cameraError,
+      errorBuilder: (_, error) => _CameraErrorView(
+        message: error.errorCode == MobileScannerErrorCode.permissionDenied
+            ? t.cameraPermissionDenied
+            : t.cameraError,
         retryLabel: t.retry,
         onRetry: onRetry,
+        settingsLabel: t.openSettings,
+        onOpenSettings:
+            error.errorCode == MobileScannerErrorCode.permissionDenied
+            ? onOpenSettings
+            : null,
       ),
     );
   }
@@ -42,18 +51,22 @@ class _CameraErrorView extends StatelessWidget {
     required this.message,
     required this.retryLabel,
     required this.onRetry,
+    required this.settingsLabel,
+    this.onOpenSettings,
   });
 
   final String message;
   final String retryLabel;
   final VoidCallback onRetry;
+  final String settingsLabel;
+  final VoidCallback? onOpenSettings;
 
   @override
   Widget build(BuildContext context) => ColoredBox(
     color: AppColors.surface,
     child: Center(
-      child: Padding(
-        padding: const EdgeInsets.all(20),
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.all(16),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -65,7 +78,18 @@ class _CameraErrorView extends StatelessWidget {
             const SizedBox(height: 12),
             Text(message, textAlign: TextAlign.center),
             const SizedBox(height: 8),
-            OutlinedButton(onPressed: onRetry, child: Text(retryLabel)),
+            Wrap(
+              alignment: WrapAlignment.center,
+              spacing: 8,
+              children: [
+                OutlinedButton(onPressed: onRetry, child: Text(retryLabel)),
+                if (onOpenSettings != null)
+                  TextButton(
+                    onPressed: onOpenSettings,
+                    child: Text(settingsLabel),
+                  ),
+              ],
+            ),
           ],
         ),
       ),

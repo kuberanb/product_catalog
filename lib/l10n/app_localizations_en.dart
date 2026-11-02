@@ -158,7 +158,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get searchError => 'Unable to search products. Please retry.';
 
   @override
-  String get codeHint => 'Enter a code, product ID or product URL';
+  String get codeHint => 'catalogue://product/3';
 
   @override
   String get description => 'Description';
@@ -183,7 +183,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get scannerHint =>
-      'Scan a barcode or QR code, or enter a product ID. Saved barcodes open directly; other text is searched in the catalog.';
+      'Scan a product QR code to open its details. You can also type a code such as catalogue://product/3.';
 
   @override
   String get category => 'Category';
@@ -194,4 +194,27 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get noDescription => 'No description available.';
+
+  @override
+  String get invalidProductCode => 'This QR code is not a product.';
+
+  @override
+  String get productNotFound => 'Product not found.';
+
+  @override
+  String get typeCodeInstead => 'Type code instead';
+
+  @override
+  String get openSettings => 'Open settings';
+
+  @override
+  String get cameraPermissionDenied =>
+      'Camera permission was denied. Enable camera access in app settings, then tap Retry, or type a code instead.';
+
+  @override
+  String get settingsOpenError =>
+      'Unable to open settings. Open the app permissions in your device settings, or type a code instead.';
+
+  @override
+  String get language => 'Language';
 }
