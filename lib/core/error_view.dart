@@ -16,12 +16,12 @@ class ErrorView extends StatelessWidget {
         Text(
           errorText(context, error),
           textAlign: TextAlign.center,
-          style: TextStyle(color: AppColors.error),
+          style: TextStyle(color: AppColors.error(context)),
         ),
         const SizedBox(height: 8),
         OutlinedButton.icon(
           onPressed: onRetry,
-          icon: const Icon(Icons.refresh),
+          icon: Icon(Icons.refresh),
           label: Text(AppLocalizations.of(context)!.retry),
         ),
       ],

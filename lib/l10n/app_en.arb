@@ -78,5 +78,11 @@
   "openSettings": "Open settings",
   "cameraPermissionDenied": "Camera permission was denied. Enable camera access in app settings, then tap Retry, or type a code instead.",
   "settingsOpenError": "Unable to open settings. Open the app permissions in your device settings, or type a code instead.",
-  "language": "Language"
+  "language": "Language",
+  "systemTheme": "System default",
+  "appearance": "Appearance",
+  "lightTheme": "Light",
+  "theme": "Theme",
+  "darkTheme": "Dark",
+  "themeError": "Unable to save your appearance preference. Please retry."
 }

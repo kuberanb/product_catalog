@@ -18,7 +18,7 @@ class ProductTile extends StatelessWidget {
     final saved = favourites.contains(product.id);
     final t = AppLocalizations.of(context)!;
     return Card(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
       clipBehavior: Clip.antiAlias,
       child: InkWell(
         onTap: () {
@@ -30,12 +30,17 @@ class ProductTile extends StatelessWidget {
           ).push(MaterialPageRoute(builder: (_) => const ProductDetailView()));
         },
         child: Padding(
-          padding: const EdgeInsets.all(12),
+          padding: const EdgeInsets.all(16),
           child: Row(
             children: [
-              SizedBox(
+              Container(
                 width: 80,
                 height: 80,
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.surface,
+                  borderRadius: BorderRadius.circular(14),
+                ),
                 child: ProductImage(url: product.image),
               ),
               const SizedBox(width: 16),
@@ -47,23 +52,25 @@ class ProductTile extends StatelessWidget {
                       product.title,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleSmall,
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                     const SizedBox(height: 8),
                     Text(
                       t.price(product.price.toStringAsFixed(2)),
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontWeight: FontWeight.w600,
-                        color: AppColors.primary,
+                        color: AppColors.primary(context),
                       ),
                     ),
                     const SizedBox(height: 4),
                     Row(
                       children: [
-                        const Icon(
+                        Icon(
                           Icons.star_rounded,
                           size: 18,
-                          color: AppColors.rating,
+                          color: AppColors.rating(context),
                         ),
                         const SizedBox(width: 4),
                         Text(
@@ -71,7 +78,7 @@ class ProductTile extends StatelessWidget {
                           semanticsLabel: t.rating(
                             product.rating.toStringAsFixed(1),
                           ),
-                          style: const TextStyle(color: AppColors.muted),
+                          style: TextStyle(color: AppColors.muted(context)),
                         ),
                       ],
                     ),
@@ -85,7 +92,9 @@ class ProductTile extends StatelessWidget {
                     : () => favourites.toggle(product),
                 icon: Icon(
                   saved ? Icons.favorite : Icons.favorite_border,
-                  color: saved ? AppColors.favourite : AppColors.muted,
+                  color: saved
+                      ? AppColors.favourite(context)
+                      : AppColors.muted(context),
                 ),
               ),
             ],

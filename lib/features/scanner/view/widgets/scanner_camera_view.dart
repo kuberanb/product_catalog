@@ -63,17 +63,17 @@ class _CameraErrorView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ColoredBox(
-    color: AppColors.surface,
+    color: AppColors.surface(context),
     child: Center(
       child: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(
+            Icon(
               Icons.no_photography_outlined,
               size: 40,
-              color: AppColors.muted,
+              color: AppColors.muted(context),
             ),
             const SizedBox(height: 12),
             Text(message, textAlign: TextAlign.center),

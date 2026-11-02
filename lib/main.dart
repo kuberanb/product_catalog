@@ -3,6 +3,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'core/api_service.dart';
 import 'core/app_colors.dart';
+import 'core/theme_service.dart';
 import 'core/app_services.dart';
 import 'core/error_view.dart';
 import 'core/local_store.dart';
@@ -37,6 +38,7 @@ class MyApp extends StatelessWidget {
         Provider<ApiService>.value(value: AppServices.api),
         Provider<LocalStore>.value(value: AppServices.store),
         ChangeNotifierProvider(create: (_) => LocaleService()..restore()),
+        ChangeNotifierProvider(create: (_) => ThemeService()..restore()),
         ChangeNotifierProvider(create: (_) => SessionService()..restore()),
         ChangeNotifierProvider(create: (_) => BottomNavViewModel()),
         ChangeNotifierProvider(create: (_) => LoginViewModel()),
@@ -67,8 +69,8 @@ class _LocalizedApp extends StatelessWidget {
   const _LocalizedApp();
 
   @override
-  Widget build(BuildContext context) => Consumer<LocaleService>(
-    builder: (context, locale, _) => MaterialApp(
+  Widget build(BuildContext context) => Consumer2<LocaleService, ThemeService>(
+    builder: (context, locale, appearance, _) => MaterialApp(
       title: 'Product Catalog',
       debugShowCheckedModeBanner: false,
       locale: locale.locale,
@@ -79,40 +81,9 @@ class _LocalizedApp extends StatelessWidget {
         GlobalCupertinoLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
       ],
-      theme: ThemeData(
-        useMaterial3: true,
-        colorScheme: AppColors.scheme,
-        scaffoldBackgroundColor: AppColors.background,
-        appBarTheme: const AppBarTheme(
-          backgroundColor: AppColors.surface,
-          foregroundColor: AppColors.text,
-          surfaceTintColor: AppColors.transparent,
-          elevation: 0,
-          centerTitle: false,
-        ),
-        cardTheme: const CardThemeData(
-          color: AppColors.surface,
-          surfaceTintColor: AppColors.transparent,
-          elevation: 0,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(12)),
-            side: BorderSide(color: AppColors.border),
-          ),
-        ),
-        navigationBarTheme: const NavigationBarThemeData(
-          backgroundColor: AppColors.surface,
-          indicatorColor: AppColors.selected,
-          surfaceTintColor: AppColors.transparent,
-        ),
-        inputDecorationTheme: const InputDecorationTheme(
-          filled: true,
-          fillColor: AppColors.surface,
-          border: OutlineInputBorder(),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: AppColors.border),
-          ),
-        ),
-      ),
+      theme: AppColors.theme(Brightness.light),
+      darkTheme: AppColors.theme(Brightness.dark),
+      themeMode: appearance.mode,
       home: Consumer<SessionService>(
         builder: (context, session, _) {
           if (session.isLoading && !session.isLoggedIn) {

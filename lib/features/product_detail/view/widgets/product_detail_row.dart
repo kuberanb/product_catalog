@@ -12,7 +12,7 @@ class ProductDetailRow extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Expanded(
-          child: Text(label, style: const TextStyle(color: AppColors.muted)),
+          child: Text(label, style: TextStyle(color: AppColors.muted(context))),
         ),
         const SizedBox(width: 16),
         Expanded(child: Text(value, textAlign: TextAlign.end)),

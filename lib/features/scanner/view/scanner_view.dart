@@ -97,15 +97,15 @@ class _ScannerViewState extends State<ScannerView> {
                       onOpenSettings: _openSettings,
                     )
                   : ColoredBox(
-                      color: AppColors.surface,
+                      color: AppColors.surface(context),
                       child: Center(
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            const Icon(
+                            Icon(
                               Icons.qr_code_scanner,
                               size: 72,
-                              color: AppColors.primary,
+                              color: AppColors.primary(context),
                             ),
                             const SizedBox(height: 20),
                             FilledButton.icon(
@@ -113,7 +113,7 @@ class _ScannerViewState extends State<ScannerView> {
                                 _codeFocus.unfocus();
                                 model.startCamera();
                               },
-                              icon: const Icon(Icons.camera_alt_outlined),
+                              icon: Icon(Icons.camera_alt_outlined),
                               label: Text(t.startCamera),
                             ),
                           ],
@@ -128,7 +128,7 @@ class _ScannerViewState extends State<ScannerView> {
               model.stopCamera();
               _codeFocus.requestFocus();
             },
-            icon: const Icon(Icons.keyboard),
+            icon: Icon(Icons.keyboard),
             label: Text(t.typeCodeInstead),
           ),
           TextField(

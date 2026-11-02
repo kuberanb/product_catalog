@@ -20,6 +20,7 @@ String errorText(BuildContext context, String code) {
     'favouritesError' => t.favouritesError,
     'favouriteSaveError' => t.favouriteSaveError,
     'settingsError' => t.settingsError,
+    'themeError' => t.themeError,
     _ => t.productsError,
   };
 }

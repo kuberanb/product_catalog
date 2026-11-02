@@ -17,7 +17,7 @@ Demo login: `emilys` / `emilyspass`.
 - Products request `/products?limit=20&skip=0`, then skip 20, 40, etc. Scroll near the end to load another page; pull down to refresh.
 - Each product shows a thumbnail, title, USD price, rating and favourite toggle. Favourites save complete product details independently of the current page.
 - SQLite stores the latest successful list, downloaded thumbnails, favourites and language. Failed requests preserve visible data. The offline banner updates on requests, app resume and periodic connection checks.
-- Settings supports English and Arabic (full RTL layout). Language persists across restarts.
+- Settings supports English and Arabic (full RTL layout), plus System, Light and Dark appearance. Language and appearance persist across restarts.
 - Login and refresh tokens use `flutter_secure_storage` only: Android Keystore-backed encryption and iOS Keychain. Android backup is disabled; all iOS build configurations reference the Keychain entitlement. Tokens and passwords are never logged or written to SQLite.
 - Startup checks for a saved secure token, including offline. Session restoration does not parse JWT claims or make refresh requests. Logout clears both secure tokens.
 - Loading indicators, empty states, image fallbacks and error Retry controls prevent blank content on failed requests.
@@ -63,6 +63,7 @@ Provider keeps presentation state separate from widgets. Dio handles HTTP and se
 
 See [REQUIREMENTS_AUDIT.md](REQUIREMENTS_AUDIT.md) for the full BRD checklist, verification evidence and platform limits. Improvements would include a repository layer instead of shared service state, cancellation for detail requests, broader accessibility checks and signed release builds. Android release signing currently uses the template debug key and must be configured before distribution.
 
-Bonus: automated UI/integration tests. No other optional bonus features are claimed. Keep existing Git history, provide the remote repository link, and record Android/iOS screenshots or video including Arabic and offline mode before sending the assignment.
+Bonuses: automated UI/integration tests and dark mode. Keep existing Git history, provide the remote repository link, and record Android/iOS screenshots or video including Arabic and offline mode before sending the assignment.
 
 All app color values live in lib/core/app_colors.dart.
+

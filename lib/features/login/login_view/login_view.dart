@@ -37,10 +37,10 @@ class LoginView extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    const Icon(
+                    Icon(
                       Icons.storefront_outlined,
-                      size: 64,
-                      color: AppColors.primary,
+                      size: 48,
+                      color: AppColors.primary(context),
                     ),
                     const SizedBox(height: 16),
                     Text(
@@ -50,13 +50,13 @@ class LoginView extends StatelessWidget {
                     ),
                     const SizedBox(height: 8),
                     Text(t.demoCredentials, textAlign: TextAlign.center),
-                    const SizedBox(height: 24),
+                    const SizedBox(height: 32),
                     TextFormField(
                       controller: model.usernameController,
                       decoration: InputDecoration(
                         labelText: t.username,
-                        border: const OutlineInputBorder(),
-                        prefixIcon: const Icon(Icons.person_outline),
+
+                        prefixIcon: Icon(Icons.person_outline),
                       ),
                       textInputAction: TextInputAction.next,
                       autofillHints: const [AutofillHints.username],
@@ -71,8 +71,8 @@ class LoginView extends StatelessWidget {
                       obscureText: model.obscurePassword,
                       decoration: InputDecoration(
                         labelText: t.password,
-                        border: const OutlineInputBorder(),
-                        prefixIcon: const Icon(Icons.lock_outline),
+
+                        prefixIcon: Icon(Icons.lock_outline),
                         suffixIcon: IconButton(
                           tooltip: model.obscurePassword
                               ? t.showPassword
@@ -96,7 +96,7 @@ class LoginView extends StatelessWidget {
                       const SizedBox(height: 12),
                       Text(
                         errorText(context, model.errorMessage!),
-                        style: const TextStyle(color: AppColors.error),
+                        style: TextStyle(color: AppColors.error(context)),
                         textAlign: TextAlign.center,
                       ),
                     ],

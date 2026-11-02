@@ -12,7 +12,7 @@ class SearchMessage extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 48, color: AppColors.muted),
+          Icon(icon, size: 48, color: AppColors.muted(context)),
           const SizedBox(height: 16),
           Text(message, textAlign: TextAlign.center),
         ],

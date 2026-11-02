@@ -217,4 +217,23 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get language => 'Language';
+
+  @override
+  String get systemTheme => 'System default';
+
+  @override
+  String get appearance => 'Appearance';
+
+  @override
+  String get lightTheme => 'Light';
+
+  @override
+  String get theme => 'Theme';
+
+  @override
+  String get darkTheme => 'Dark';
+
+  @override
+  String get themeError =>
+      'Unable to save your appearance preference. Please retry.';
 }

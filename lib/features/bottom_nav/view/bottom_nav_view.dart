@@ -37,7 +37,7 @@ class BottomNavView extends StatelessWidget {
             ? [
                 IconButton(
                   tooltip: t.search,
-                  icon: const Icon(Icons.search),
+                  icon: Icon(Icons.search),
                   onPressed: () {
                     context.read<SearchViewModel>().search('');
                     Navigator.of(context).push(
@@ -47,7 +47,7 @@ class BottomNavView extends StatelessWidget {
                 ),
                 IconButton(
                   tooltip: t.scanner,
-                  icon: const Icon(Icons.qr_code_scanner),
+                  icon: Icon(Icons.qr_code_scanner),
                   onPressed: () {
                     context.read<ScannerViewModel>().reset();
                     Navigator.of(context).push(
@@ -62,7 +62,7 @@ class BottomNavView extends StatelessWidget {
         children: [
           if (products.isOffline)
             Material(
-              color: AppColors.offline,
+              color: AppColors.offline(context),
               child: Padding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 16,
@@ -70,7 +70,7 @@ class BottomNavView extends StatelessWidget {
                 ),
                 child: Row(
                   children: [
-                    const Icon(Icons.wifi_off),
+                    Icon(Icons.wifi_off),
                     const SizedBox(width: 12),
                     Expanded(child: Text(t.offline)),
                     TextButton(
@@ -93,15 +93,15 @@ class BottomNavView extends StatelessWidget {
         onDestinationSelected: model.selectTab,
         destinations: [
           NavigationDestination(
-            icon: const Icon(Icons.inventory_2_outlined),
+            icon: Icon(Icons.inventory_2_outlined),
             label: t.products,
           ),
           NavigationDestination(
-            icon: const Icon(Icons.favorite_border),
+            icon: Icon(Icons.favorite_border),
             label: t.favourites,
           ),
           NavigationDestination(
-            icon: const Icon(Icons.settings_outlined),
+            icon: Icon(Icons.settings_outlined),
             label: t.settings,
           ),
         ],

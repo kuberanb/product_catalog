@@ -37,7 +37,9 @@ class ProductDetailView extends StatelessWidget {
                   : () => favourites.toggle(item),
               icon: Icon(
                 saved ? Icons.favorite : Icons.favorite_border,
-                color: saved ? AppColors.favourite : AppColors.muted,
+                color: saved
+                    ? AppColors.favourite(context)
+                    : AppColors.muted(context),
               ),
             ),
         ],
@@ -58,7 +60,7 @@ class ProductDetailView extends StatelessWidget {
                     height: 230,
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
-                      color: AppColors.surface,
+                      color: AppColors.surface(context),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: PageView.builder(
@@ -85,14 +87,17 @@ class ProductDetailView extends StatelessWidget {
                   Text(
                     t.price(item.price.toStringAsFixed(2)),
                     style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      color: AppColors.primary,
+                      color: AppColors.primary(context),
                       fontWeight: FontWeight.w600,
                     ),
                   ),
                   const SizedBox(height: 12),
                   Row(
                     children: [
-                      const Icon(Icons.star_rounded, color: AppColors.rating),
+                      Icon(
+                        Icons.star_rounded,
+                        color: AppColors.rating(context),
+                      ),
                       const SizedBox(width: 6),
                       Text(t.rating(item.rating.toStringAsFixed(1))),
                     ],

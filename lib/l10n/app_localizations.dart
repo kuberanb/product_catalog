@@ -487,6 +487,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Language'**
   String get language;
+
+  /// No description provided for @systemTheme.
+  ///
+  /// In en, this message translates to:
+  /// **'System default'**
+  String get systemTheme;
+
+  /// No description provided for @appearance.
+  ///
+  /// In en, this message translates to:
+  /// **'Appearance'**
+  String get appearance;
+
+  /// No description provided for @lightTheme.
+  ///
+  /// In en, this message translates to:
+  /// **'Light'**
+  String get lightTheme;
+
+  /// No description provided for @theme.
+  ///
+  /// In en, this message translates to:
+  /// **'Theme'**
+  String get theme;
+
+  /// No description provided for @darkTheme.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark'**
+  String get darkTheme;
+
+  /// No description provided for @themeError.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to save your appearance preference. Please retry.'**
+  String get themeError;
 }
 
 class _AppLocalizationsDelegate

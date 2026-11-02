@@ -27,11 +27,11 @@ class SearchView extends StatelessWidget {
               onFieldSubmitted: model.search,
               decoration: InputDecoration(
                 hintText: t.searchHint,
-                prefixIcon: const Icon(Icons.search),
+                prefixIcon: Icon(Icons.search),
                 suffixIcon: IconButton(
                   tooltip: t.search,
                   onPressed: () => model.search(model.query),
-                  icon: const Icon(Icons.arrow_forward),
+                  icon: Icon(Icons.arrow_forward),
                 ),
               ),
             ),
@@ -45,7 +45,7 @@ class SearchView extends StatelessWidget {
                   Expanded(
                     child: Text(
                       t.offline,
-                      style: const TextStyle(color: AppColors.muted),
+                      style: TextStyle(color: AppColors.muted(context)),
                     ),
                   ),
                   TextButton(onPressed: model.retry, child: Text(t.retry)),
